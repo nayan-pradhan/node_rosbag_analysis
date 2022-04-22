@@ -1,0 +1,7 @@
+<launch>
+
+    <node pkg="rosbag" type="play" name="player" output="screen" args="--clock /home/nayan/NODE_Robotics/environment_files/dummy_env-agv-50231.agv-2020-10-01T082312+0200_2020-10-01-11-28-17_37.bag"/>
+
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find node_rosbag_analysis)/rviz/rviz_setup.rviz" />
+
+</launch>
