@@ -17,6 +17,9 @@ class RealTimeErrorDetection:
         self.callback_latest_state_machine_event_log_msg = String()
         self.callback_latest_cmd_vel_msg = Twist()
 
+        self.wait_seconds_threshold = int(rospy.get_param("wait_seconds_threshold"))
+        self.min_linear_x_threshold = float(rospy.get_param("min_linear_x_threshold"))
+
         rospy.Subscriber("/mission_active", Bool, self.callback_set_is_mission_active_msg)
         rospy.Subscriber("/state_machine_event_log", String, self.callback_set_state_mission_event_log_msg)
         rospy.Subscriber("/cmd_vel", Twist, self.callback_set_cmd_vel_msg)
@@ -29,7 +32,7 @@ class RealTimeErrorDetection:
             is_everything_fine, check_return_msg = self.check_latest_msgs(latest_is_mission_active_msg, latest_state_machine_event_log_msg, latest_cmd_vel_msg)
                 
             if (not is_everything_fine):
-                while (latest_cmd_vel_msg.linear.x < 0.15 or not rospy.is_shutdown):
+                while (latest_cmd_vel_msg.linear.x < self.min_linear_x_threshold or not rospy.is_shutdown):
                     latest_cmd_vel_msg = self.get_latest_cmd_vel_msg()
                     # rospy.loginfo("Linear x vel: "+str(latest_cmd_vel_msg.linear.x))
                     rospy.logerr(check_return_msg)
@@ -84,15 +87,15 @@ class RealTimeErrorDetection:
             
             is_false_positive = False
 
-            if (latest_cmd_vel_msg.linear.x < 0.15):
+            if (latest_cmd_vel_msg.linear.x < self.min_linear_x_threshold):
                 
                 start_time_in_seconds = rospy.get_time()
                 current_time_in_seconds = rospy.get_time()
 
-                while(current_time_in_seconds < start_time_in_seconds+10):
+                while(current_time_in_seconds < start_time_in_seconds+self.wait_seconds_threshold):
                     current_time_in_seconds = rospy.get_time()
 
-                    if (self.get_latest_cmd_vel_msg().linear.x > 0.15):
+                    if (self.get_latest_cmd_vel_msg().linear.x > self.min_linear_x_threshold):
                         is_false_positive = True
                         break
 
