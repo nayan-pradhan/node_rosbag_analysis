@@ -22,7 +22,9 @@
     <!-- params -->
     <param name="selected_rosbag_file" type="str" value ="$(arg selected_rosbag_file)" />
     <param name="path_to_rosbag" type="str" value="$(arg path_to_rosbag)" />
-
+    <param name="wait_seconds_threshold" type="int" value="10" />
+    <param name="min_linear_x_threshold" type="double" value="0.15" />
+    
     <!-- launch review_error_detection_node -->
     <node name="review_error_detection_node" pkg="node_rosbag_analysis" type="review_error_detection.py" output="screen" />
 
