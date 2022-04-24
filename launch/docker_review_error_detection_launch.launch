@@ -1,0 +1,31 @@
+<launch>
+
+    <!-- name of rosbag files -->
+    <arg name="name_of_bag_file_1" value="dummy_env-02LSTRV30209OA001.agv-2020-09-17T101249+0200_2020-09-18-14-57-51_345.bag" />
+    <arg name="name_of_bag_file_2" value="dummy_env-02LSTRV30209OA001.agv-2020-09-17T101249+0200_2020-09-18-15-02-52_346.bag" />
+    <arg name="name_of_bag_file_3" value="dummy_env-02LSTRV30209OA001.agv-2020-09-17T101249+0200_2020-09-18-15-07-52_347.bag" />
+    <arg name="name_of_bag_file_4" value="dummy_env-02LSTRV30209OA001.agv-2020-09-17T101249+0200_2020-09-18-15-12-52_348.bag" />
+    <arg name="name_of_bag_file_5" value="dummy_env-02LSTRV30209OA001.agv-2020-09-17T101249+0200_2020-09-18-15-17-51_349.bag" />
+    <arg name="name_of_bag_file_6" value="dummy_env-02LSTRV30209OA001.agv-2020-09-17T101249+0200_2020-09-18-15-22-52_350.bag" />
+    <arg name="name_of_bag_file_7" value="dummy_env-02LSTRV30209OA001.agv-2020-09-17T101249+0200_2020-09-18-15-27-52_351.bag" />
+    <arg name="name_of_bag_file_8" value="dummy_env-02LSTRV30209OA001.agv-2020-09-17T101249+0200_2020-09-18-15-27-52_351.bag" />
+
+    <arg name="name_of_bag_file_9" value="dummy_env-agv-50231.agv-2020-10-01T082312+0200_2020-10-01-11-28-17_37.bag" />
+    <arg name="name_of_bag_file_10" value="dummy_env-agv-50231.agv-2020-10-01T082312+0200_2020-10-01-11-33-17_38.bag.bag" />
+    
+    <!-- selected rosbag file -->
+    <arg name="selected_rosbag_file" value ="$(arg name_of_bag_file_9)" />
+
+    <!-- docker path to rosbag file -->
+    <arg name="path_to_rosbag" value="/mnt/NODE_Robotics/environment_files" />
+
+    <!-- params -->
+    <param name="selected_rosbag_file" type="str" value ="$(arg selected_rosbag_file)" />
+    <param name="path_to_rosbag" type="str" value="$(arg path_to_rosbag)" />
+    <param name="wait_seconds_threshold" type="int" value="10" />
+    <param name="min_linear_x_threshold" type="double" value="0.15" />
+
+    <!-- launch review_error_detection_node -->
+    <node name="review_error_detection_node" pkg="node_rosbag_analysis" type="review_error_detection.py" output="screen" />
+
+</launch>
