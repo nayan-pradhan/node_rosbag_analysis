@@ -1,9 +1,11 @@
 # NODE ROSBAG ANALYSIS
 
-Hello, welcome to my project! 
+------------------------------------------
 
 ## Installation and Setup
 A local installation and docker installation option is available. Since the docker installation uses **ros:noetic** and not **osrf/ros:noetic-desktop-full**, nodes that launch RVIZ cannot be launched. 
+
+------------------------------------------
 
 ### Local Installation
 
@@ -27,6 +29,21 @@ http://wiki.ros.org/noetic/Installation/Ubuntu
 `cd src/node_rosbag_analysis/launch/`  
 Use your favourite code editor to update launch files: **real_time_error_detection_launch.launch**, **review_error_detection_launch.launch**, and **rviz_launch.launch**.  
 `<arg name="path_to_rosbag" value=" INSERT UPDATED PATH TO BAG FILE " />`  
+
+------------------------------------------
+
+### Launching Nodes Locally  
+
+* Launch **rviz** for only visualization.  
+`roslaunch node_rosbag_analysis rviz_launch.launch`  
+
+* Launch **real_time_error_detection_node** for real time error detection using ROS Subscribers.    
+`roslaunch node_rosbag_analysis real_time_error_detection_launch.launch`
+
+* Launch **review_error_detection_node** for error detection review using Python ROSBAG API.  
+`roslaunch node_rosbag_analysis review_error_detection_launch.launch`  
+
+------------------------------------------
 
 ### Docker Installation
 
@@ -60,6 +77,8 @@ A repository named **node-docker-image** should appear. Copy the **IMAGE_ID** of
 `cd src/`  
 `git clone https://github.com/nayan-pradhan/node_rosbag_analysis.git`
 
-10. catkin_make.
+10. catkin_make.  
 `cd ..`  
 `catkin_make`  
+
+------------------------------------------
