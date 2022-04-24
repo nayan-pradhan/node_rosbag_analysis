@@ -1,7 +1,5 @@
 # NODE ROSBAG ANALYSIS
 
-------------------------------------------
-
 ## Installation and Setup
 A local installation and docker installation option is available. Since the docker installation uses **ros:noetic** and not **osrf/ros:noetic-desktop-full**, nodes that launch RVIZ cannot be launched. 
 
@@ -80,5 +78,12 @@ A repository named **node-docker-image** should appear. Copy the **IMAGE_ID** of
 10. catkin_make.  
 `cd ..`  
 `catkin_make`  
+
+------------------------------------------
+
+### Launching Nodes in Docker Container  
+
+* Launch **review_error_detection_node** for error detection review using Python ROSBAG API.  
+`roslaunch node_rosbag_analysis docker_review_error_detection_launch.launch`  
 
 ------------------------------------------
