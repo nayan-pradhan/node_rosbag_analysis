@@ -14,7 +14,7 @@
     <arg name="name_of_bag_file_10" value="dummy_env-agv-50231.agv-2020-10-01T082312+0200_2020-10-01-11-33-17_38.bag.bag" />
     
     <!-- selected rosbag file -->
-    <arg name="selected_rosbag_file" value ="$(arg name_of_bag_file_7)" />
+    <arg name="selected_rosbag_file" value ="$(arg name_of_bag_file_9)" />
 
     <!-- path to rosbag file -->
     <arg name="path_to_rosbag" value="/home/nayan/NODE_Robotics/environment_files" />
