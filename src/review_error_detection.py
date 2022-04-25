@@ -16,11 +16,10 @@ class ReviewErrorDetection:
         rospy.loginfo("Reviewing ROS BAG file: "+NAME_OF_BAG_FILE)
         bag = rosbag.Bag(PATH_TO_BAG_FILE + '/' + NAME_OF_BAG_FILE)
 
-        self.wait_seconds_threshold = int(rospy.get_param("wait_seconds_threshold"))
+        latest_cmd_vel_msg = 0.0
+        something_wrong = False
+        
         self.min_linear_x_threshold = float(rospy.get_param("min_linear_x_threshold"))
-
-
-        all_msgs = []
 
         for topic, msg, t in bag.read_messages(topics=['/mission_active', '/state_machine_event_log', '/cmd_vel']):
             if topic == '/mission_active':
@@ -39,48 +38,24 @@ class ReviewErrorDetection:
 
                 outcome_msg = msg[msg_starting_index+14:]
 
-                all_msgs.append(outcome_msg)
-
                 if outcome_msg == "paused":
-                    rospy.logerr("STATE MACHINE WAS PAUSED, SOMETHING WRONG")
+                    if latest_cmd_vel_msg < self.min_linear_x_threshold:
+                        rospy.logerr("STATE MACHINE WAS PAUSED, NOW NO MOVEMENT, SOMETHING WRONG")
+                        something_wrong = True 
             
             elif topic == '/cmd_vel':
-                all_msgs.append(msg.linear.x)
+                latest_cmd_vel_msg = msg.linear.x
 
             else:
                 rospy.loginfo("Message not received for t: "+str(t))
                 continue
-
-        # self.check_msgs(all_msgs)
+        
+        if (not something_wrong):
+            rospy.loginfo("Everything looks good.")
 
         rospy.loginfo("End of BAG file reached!")
         bag.close()
         rospy.loginfo("BAG file closed!")
-
-
-    def check_msgs(self, all_msgs):
-        # print(all_msgs)
-        flag = False 
-        counter = 0
-
-        for msg in all_msgs:
-
-            if type(msg) == float:
-                if flag:
-                    if msg > self.min_linear_x_threshold:
-                        flag = False 
-                        counter = 0
-                    else:
-                        if counter > self.wait_seconds_threshold:
-                            rospy.logerr("STATE MACHINE TRIED RETRY or PAUSED, NOW NO MOVEMENT, SOMETHING WRONG")
-                        counter += 1
-            else:
-                
-                if msg == 'retry' or msg == 'paused':
-                    flag = True
-                else: 
-                    # flag = False 
-                    rospy.loginfo("Robot running as expected.")
 
 
 def main():
