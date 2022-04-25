@@ -1,7 +1,9 @@
 # NODE ROSBAG ANALYSIS
 
+------------------------------------------
+
 ## Documentation
-The documentation for this project can be found in **node_robotics_analysis_documentation.pdf**.
+The documentation for this project can be found in [node_rosbag_analysis_documentation.pdf](documentation/node_rosbag_analysis_documentation.pdf).
 
 ------------------------------------------
 
