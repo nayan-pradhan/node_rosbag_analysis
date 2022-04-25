@@ -18,6 +18,7 @@ class RealTimeErrorDetection:
         self.callback_latest_state_machine_event_log_msg = String()
         self.callback_latest_cmd_vel_msg = Twist()
 
+        self.wait_seconds_threshold = int(rospy.get_param("wait_seconds_threshold"))
         self.min_linear_x_threshold = float(rospy.get_param("min_linear_x_threshold"))
 
         rospy.Subscriber("/mission_active", Bool, self.callback_set_is_mission_active_msg)
@@ -86,9 +87,31 @@ class RealTimeErrorDetection:
 
         outcome_msg = latest_state_machine_event_log_msg[outcome_msg_starting_index+14:]
 
+        # rospy.logerr(outcome_msg)
+
         if (outcome_msg == "paused"):
             check_return_msg = "STATE MACHINE WAS PAUSED, NOW NO MOVEMENT, SOMETHING WRONG"
             return False, check_return_msg
+
+        if (outcome_msg == "retry"):
+            
+            is_false_positive = False
+
+            if (latest_cmd_vel_msg.linear.x < self.min_linear_x_threshold):
+                
+                start_time_in_seconds = rospy.get_time()
+                current_time_in_seconds = rospy.get_time()
+
+                while(current_time_in_seconds < start_time_in_seconds+self.wait_seconds_threshold):
+                    current_time_in_seconds = rospy.get_time()
+
+                    if (self.get_latest_cmd_vel_msg().linear.x > self.min_linear_x_threshold):
+                        is_false_positive = True
+                        break
+
+            if not is_false_positive:
+                check_return_msg = "STATE MACHINE TRIED RETRY, NOW NO MOVEMENT, SOMETHING WRONG"
+                return False, check_return_msg
 
         return True, check_return_msg
 
