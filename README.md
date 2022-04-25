@@ -87,3 +87,7 @@ A repository named **node-docker-image** should appear. Copy the **IMAGE_ID** of
 `roslaunch node_rosbag_analysis docker_review_error_detection_launch.launch`  
 
 ------------------------------------------
+
+![alt text](https://github.com/nayan-pradhan/node_rosbag_analysis/blob/master/images/rviz_visualization.png)
+
+------------------------------------------
