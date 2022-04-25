@@ -5,6 +5,7 @@ import rospy
 import rosbag
 from std_msgs.msg import Bool, String
 from geometry_msgs.msg import Twist
+from sensor_msgs.msg import LaserScan
 
 NAME_OF_NODE = "real_time_error_detection_node"
 NAME_OF_BAG_FILE = rospy.get_param("selected_rosbag_file")
@@ -23,6 +24,7 @@ class RealTimeErrorDetection:
         rospy.Subscriber("/mission_active", Bool, self.callback_set_is_mission_active_msg)
         rospy.Subscriber("/state_machine_event_log", String, self.callback_set_state_mission_event_log_msg)
         rospy.Subscriber("/cmd_vel", Twist, self.callback_set_cmd_vel_msg)
+        # rospy.Subscriber("/scan", LaserScan, self.callback_laser_scan)
         
         while not rospy.is_shutdown(): 
             latest_is_mission_active_msg = self.get_latest_is_mission_active_msg()
@@ -36,6 +38,14 @@ class RealTimeErrorDetection:
                     latest_cmd_vel_msg = self.get_latest_cmd_vel_msg()
                     # rospy.loginfo("Linear x vel: "+str(latest_cmd_vel_msg.linear.x))
                     rospy.logerr(check_return_msg)
+
+
+    def callback_laser_scan(self, msg):
+        print("--------")
+        print("Right:", msg.ranges[0])
+        print("Forward:", msg.ranges[166])
+        print("Left:", msg.ranges[332])
+        print("--------")
 
 
     def callback_set_is_mission_active_msg(self, msg):
