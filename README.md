@@ -1,5 +1,10 @@
 # NODE ROSBAG ANALYSIS
 
+## Documentation
+The documentation for this project can be found in **node_robotics_analysis_documentation.pdf**.
+
+------------------------------------------
+
 ## Installation and Setup
 A local installation and docker installation option is available. Since the docker installation uses **ros:noetic** and not **osrf/ros:noetic-desktop-full**, nodes that launch RVIZ cannot be launched. 
 
