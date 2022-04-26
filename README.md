@@ -7,6 +7,16 @@ The documentation for this project can be found in [node_rosbag_analysis_documen
 
 ------------------------------------------
 
+## Screen-recording of RVIZ Window
+https://drive.google.com/drive/folders/1EMriA3DYMA6gk9TQ5tGpGX1Gvr0JHSIE?usp=sharing
+
+------------------------------------------
+
+## Screenshot of RVIZ Window
+![alt text](https://github.com/nayan-pradhan/node_rosbag_analysis/blob/master/images/rviz_visualization.png)
+
+------------------------------------------
+
 ## Installation and Setup
 A local installation and docker installation option is available. Since the docker installation uses **ros:noetic** and not **osrf/ros:noetic-desktop-full**, nodes that launch RVIZ cannot be launched. 
 
@@ -124,9 +134,5 @@ catkin_make
 ```bash
 roslaunch node_rosbag_analysis docker_review_error_detection_launch.launch
 ```  
-
-------------------------------------------
-
-![alt text](https://github.com/nayan-pradhan/node_rosbag_analysis/blob/master/images/rviz_visualization.png)
 
 ------------------------------------------
